@@ -11,11 +11,11 @@ type speedtestClient interface {
 	FetchServerListContext(ctx context.Context, user *speedtest.User) (speedtest.Servers, error)
 }
 
-func measureWithSpeedTestNet(ctx context.Context, options Options) (*SpeedTestResults, error) {
+func measureWithSpeedTestNet(ctx context.Context, options options) (*SpeedTestResults, error) {
 	return measureWithSpeedTestNetWithClient(ctx, options, speedtest.New())
 }
 
-func measureWithSpeedTestNetWithClient(ctx context.Context, options Options, client speedtestClient) (*SpeedTestResults, error) {
+func measureWithSpeedTestNetWithClient(ctx context.Context, options options, client speedtestClient) (*SpeedTestResults, error) {
 	user, err := client.FetchUserInfoContext(ctx)
 	if err != nil {
 		return nil, err

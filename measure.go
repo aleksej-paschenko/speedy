@@ -2,8 +2,11 @@ package speedy
 
 import "context"
 
+// SpeedTestResults contains measure results of the download and upload speeds.
 type SpeedTestResults struct {
-	UploadSpeed   float64
+	// UploadSpeed in Mbps.
+	UploadSpeed float64
+	// DownloadSpeed in Mbps.
 	DownloadSpeed float64
 }
 
@@ -14,8 +17,9 @@ const (
 	SpeedtestNet provider = "speedtest.net"
 )
 
-func Measure(ctx context.Context, opts ...Option) (*SpeedTestResults, error) {
-	options := &Options{
+// Measure measures the download and upload speeds with a specific provider.
+func Measure(ctx context.Context, opts ...option) (*SpeedTestResults, error) {
+	options := &options{
 		measureFn:     measureWithSpeedTestNet,
 		measureUpload: true,
 	}
@@ -25,17 +29,18 @@ func Measure(ctx context.Context, opts ...Option) (*SpeedTestResults, error) {
 	return options.measureFn(ctx, *options)
 }
 
-type measureFn func(ctx context.Context, options Options) (*SpeedTestResults, error)
+type measureFn func(ctx context.Context, options options) (*SpeedTestResults, error)
 
-type Options struct {
+type options struct {
 	measureFn     measureFn
 	measureUpload bool
 }
 
-type Option func(*Options)
+type option func(*options)
 
-func WithProvider(provider provider) Option {
-	return func(options *Options) {
+// WithProvider configures a specific provider to be used.
+func WithProvider(provider provider) option {
+	return func(options *options) {
 		switch provider {
 		case FastCom:
 			options.measureFn = measureWithFastCom
@@ -45,8 +50,9 @@ func WithProvider(provider provider) Option {
 	}
 }
 
-func WithDownloadSpeedOnly() Option {
-	return func(options *Options) {
+// WithDownloadSpeedOnly configures to measure the download speed only.
+func WithDownloadSpeedOnly() option {
+	return func(options *options) {
 		options.measureUpload = false
 	}
 }

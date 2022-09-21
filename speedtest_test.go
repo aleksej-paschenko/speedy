@@ -25,7 +25,7 @@ func Test_measureWithSpeedTestNetWithClient(t *testing.T) {
 	tests := []struct {
 		name    string
 		client  *mockClient
-		options Options
+		options options
 		want    *SpeedTestResults
 		wantErr string
 	}{

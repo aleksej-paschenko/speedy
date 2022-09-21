@@ -7,7 +7,7 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-func measureWithFastCom(ctx context.Context, options Options) (*SpeedTestResults, error) {
+func measureWithFastCom(ctx context.Context, options options) (*SpeedTestResults, error) {
 	ctx, cancel := chromedp.NewContext(ctx)
 	defer cancel()
 
